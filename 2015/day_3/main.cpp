@@ -18,30 +18,35 @@ int main() {
     std::string input;
     std::getline(std::cin, input);
 
-    int64_t x = 0;
-    int64_t y = 0;
+    int64_t x_santa = 0;
+    int64_t y_santa = 0;
+    int64_t x_robo = 0;
+    int64_t y_robo = 0;
 
     std::unordered_map<std::pair<int, int>, int, PairHash> map;
 
     map[{0,0}]++;
 
+    bool santa_turn = true;
+
     for (const char &c: input) {
         switch (c) {
             case '<':
-                x--;
+                santa_turn ? x_santa-- : x_robo--;
                 break;
             case '>':
-                x++;
+                santa_turn ? x_santa++ : x_robo++;
                 break;
             case '^':
-                y++;
+                santa_turn ? y_santa++ : y_robo++;
                 break;
             case 'v':
-                y--;
+                santa_turn ? y_santa-- : y_robo--;
                 break;
         }
 
-        map[{x,y}]++;
+        santa_turn ? map[{x_santa,y_santa}]++ : map[{x_robo, y_robo}]++;
+        santa_turn = !santa_turn;
     }
 
     std::cout << map.size() << std::endl;
